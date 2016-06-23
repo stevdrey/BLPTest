@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <title>#{bundle['page.title.view.cus']}</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="frm_custumers">
+            <f:loadBundle id="bundle" basename="resources.i18n.messages" var="bundle"/>
+            
+            <p:dataTable id="tbl_custumers" var="cus" value="#{customerDetail.listOfCustumers}" 
+                         widgetVar="cusTable" filteredValue="#{customerDetail.filterCustumers}"
+                         paginator="true" rows="10" resizableColumns="true">
+                
+                <p:column id="col_id" filterBy="#{cus.cusId}" headerText="#{bundle['col.cus.id']}" filterMatchMode="contains">
+                    <h:outputText value="#{cus.cusId}"/>
+                </p:column>
+                
+                <p:column id="col_name" filterBy="#{cus.cusName}" headerText="#{bundle['col.cus.name']}" filterMatchMode="contains">
+                    <h:outputText value="#{cus.cusName}"/>
+                </p:column>
+                
+                <p:column id="col_lastname" filterBy="#{cus.cusLastname}" headerText="#{bundle['col.cus.lastname']}" filterMatchMode="contains">
+                    <h:outputText value="#{cus.cusLastname}"/>
+                </p:column>
+                
+                <p:column id="col_email" filterBy="#{cus.cusEmail}" headerText="#{bundle['col.cus.email']}" filterMatchMode="contains">
+                    <h:outputText value="#{cus.cusEmail}"/>
+                </p:column>
+                
+                <p:column id="col_phone" filterBy="#{cus.cusPhone}" headerText="#{bundle['col.cus.phone']}" filterMatchMode="contains">
+                    <h:outputText value="#{cus.cusPhone}"/>
+                </p:column>
+                
+                <p:column style="width: 3px; text-align: center">
+                    <p:commandButton update=":frm_custumers:cusDetail" oncomplete="PF('cusDialog').show()" 
+                                     icon="ui-icon-search" title="#{bundle['col.btn.tooltip.view']}">
+                        <f:setPropertyActionListener value="#{cus}" target="#{customerDetail.selectd}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <p:dialog id="dlg_cusDetail" header="#{bundle['dlg.header']}" modal="true" 
+                      closable="true" showEffect="fade" widgetVar="cusDialog" hideEffect="fade"
+                      resizable="false" responsive="true">
+                <p:outputPanel id="cusDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" layout="grid" rendered="#{not empty customerDetail.selectd}" columnClasses="lable, value">
+                        <p:outputLabel id="lbl_dateRegister" value="#{bundle['cus.date.register']}" for="txt_dateRegister"/>
+                        <h:outputText id="txt_dateRegister" value="#{customerDetail.selectd.cusDateRegister}"/>
+                        
+                        <p:outputLabel id="lbl_comment" value="#{bundle['cus.comment']}" for="txta_comment"/>
+                        <h:outputText id="txta_comment" value="#{customerDetail.selectd.cusComment}"/>
+                        
+                        <p:outputLabel id="lbl_osName" value="#{bundle['cus.os.name']}" for="txt_osName"/>
+                        <h:outputText id="txt_osName" value="#{customerDetail.selectd.cusOs}"/>
+                        
+                        <p:outputLabel id="lbl_agent" value="#{bundle['cus.agent']}" for="txt_agent"/>
+                        <h:outputText id="txt_agent" value="#{customerDetail.selectd.cusAgent}"/>
+                        
+                        <p:outputLabel id="lbl_ip" value="#{bundle['cus.ip']}" for="txt_ip"/>
+                        <h:outputText id="txt_ip" value="#{customerDetail.selectd.cusIp}"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

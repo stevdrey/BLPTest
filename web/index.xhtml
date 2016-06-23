@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <title>BLP Test</title>
+    </h:head>
+    <h:body>
+        
+        <h:form>
+            <f:loadBundle id="bundle" basename="resources.i18n.messages" var="bundle"/>
+            <p:growl id="grw_message" showDetail="true"/>
+            
+            <p:panel id="pn_form" header="#{bundle['form.header']}">
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2">
+                    <p:outputLabel id="lbl_name" value="#{bundle['cus.name']}" for="txt_name"/>
+                    <p:inputText id="txt_name" value="#{custumerController.current.cusName}" 
+                                 required="true" requiredMessage="#{bundle['cus.require.name']}" 
+                                 maxlength="100" style="width: 60%;"
+                                 title="#{bundle['cus.tooltip.name']}"/>
+                    
+                    <p:outputLabel id="lbl_lastname" value="#{bundle['cus.lastname']}" for="txt_lastname"/>
+                    <p:inputText id="txt_lastname" value="#{custumerController.current.cusLastname}" 
+                                 required="true" requiredMessage="#{bundle['cus.require.lastname']}"
+                                 maxlength="150" style="width: 60%;"
+                                 title="#{bundle['cus.tooltip.lastname']}"/>
+                    
+                    <p:outputLabel id="lbl_email" value="#{bundle['cus.email']}" for="txt_email"/>
+                    <p:inputText id="txt_email" ps:type="email" value="#{custumerController.current.cusEmail}" 
+                                 maxlength="190" validatorMessage="#{bundle['cus.validator.email']}" 
+                                 style="width: 60%;" placeholder="#{bundle['cus.email.placeholder']}" 
+                                 title="#{bundle['cus.tooltip.email']}">
+                        
+                       <!-- <f:validateRegex pattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$" 
+                                         for="txt_email"/> -->
+                    </p:inputText>
+                    
+                    <p:outputLabel id="lbl_phone" value="#{bundle['cus.phone']}" for="txt_phone"/>
+                    <p:inputMask id="txt_phone" value="#{custumerController.current.cusPhone}" 
+                                 mask="#{custumerController.phoneMask}" ps:type="number" 
+                                 style="width: 60%;" title="#{bundle['cus.tooltip.phone']}"/>
+                    
+                    <p:outputLabel id="lbl_birthday" value="#{bundle['cus.birthday']}" for="cal_birthday"/>
+                    <p:calendar id="cal_birthday" value="#{custumerController.current.cusBirthday}" 
+                                pattern="#{custumerController.patternDate}" mask="true" navigator="true" 
+                                ps:style="width: 60%;" title="#{bundle['cus.tooltip.birthday']}"/>
+                    
+                    <p:outputLabel id="lbl_comment" value="#{bundle['cus.comment']}" for="txta_comment"/>
+                    <p:inputTextarea id="txta_comment" value="#{custumerController.current.cusComment}" 
+                                     maxlength="200" style="width: 60%;" 
+                                     title="#{bundle['cus.tooltip.comment']}"/>
+                </p:panelGrid>
+                
+               <p:commandButton id="btn_save" value="#{bundle['btn.save']}" update="grw_message pn_form"
+                                 icon="ui-icon-disk" actionListener="#{custumerController.addCustumer()}"
+                                 styleClass="ui-priority-primary"/>
+                
+                <p:commandButton id="btn_clean" value="#{bundle['btn.clear']}" icon="fa fa-eraser">
+                    <p:ajax update="pn_form" resetValues="true"/>
+                </p:commandButton>
+                
+                <p:commandButton id="btn_show_custumers" rendered="#{custumerController.showButton()}" 
+                                 value="#{bundle['btn.show.cus']}" icon="fa fa-list"
+                                 actionListener="#{custumerController.onShowCustumerDetails(evt)}"
+                                 immediate="true"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
