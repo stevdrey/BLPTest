@@ -1,0 +1,22 @@
+CREATE DATABASE IF NOT EXISTS db_blp_test;
+
+use db_blp_test;
+
+CREATE TABLE IF NOT EXISTS tb_custumer(
+	cus_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	cus_name VARCHAR(100) NOT NULL DEFAULT '',
+	cus_lastname VARCHAR(150) NOT NULL DEFAULT '',
+	cus_email VARCHAR(190) NOT NULL DEFAULT '',
+	cus_phone VARCHAR(20) NOT NULL DEFAULT '',
+	cus_birthday DATE,
+	cus_date_register TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	cus_comment VARCHAR(200) NOT NULL DEFAULT '',
+	cus_ip VARCHAR(46) NOT NULL DEFAULT '',
+	cus_agent VARCHAR(50) NOT NULL DEFAULT '',
+	cus_os VARCHAR(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB;
+
+CREATE USER 'blp_user'@'localhost' IDENTIFIED BY 'P@$5W0rD;2o16!';
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+	ON db_blp_test.* TO 'blp_user'@'localhost';
